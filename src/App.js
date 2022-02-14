@@ -1,24 +1,16 @@
-import { useState } from 'react'; 
+import React, { useState } from 'react';
 import './App.css';
-
-const Button = ({ event, text }) => {
-  return <button onClick={event}>{text}</button>
-}
-
-const Paragraph = ({ text, value, symbol }) => (
-  <p>
-    {text}: {value} {symbol}
-  </p>
-);
+import Buttons from './Buttons';
+import Statistics from './Statistics';
 
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  const incrementGoodFeedback = () => setGood(good + 1);
-  const incrementNeutralFeedback = () => setNeutral(neutral + 1);
-  const incrementBadFeedback = () => setBad(bad + 1);
+  const handleGoodFeedback = () => setGood(good) + 1 
+  const handleNeutralFeedback = () => setNeutral(neutral) + 1
+  const handleBadFeedback = () => setBad(bad) + 1
 
   const sumAll = () => good + neutral + bad
 
@@ -29,16 +21,23 @@ const App = () => {
   return (
     <div className="App">
       <h2>Give feedback</h2>
-      <Button event={incrementGoodFeedback} text={'Good'}/>
-      <Button event={incrementNeutralFeedback} text={'Neutral'}/>
-      <Button event={incrementBadFeedback} text={'Bad'}/>
+      <Buttons
+        eventGood={handleGoodFeedback} 
+        eventNeutral={handleNeutralFeedback}
+        eventBad={handleBadFeedback}
+        textG={'Good'}
+        textN={'Neutral'}
+        textB={'Bad'}
+        />
       <h2>Statistics</h2>
-      <Paragraph text={"Good"} value={good} />
-      <Paragraph text={"Neutral"} value={neutral} />
-      <Paragraph text={"Bad"} value={bad} />
-      <Paragraph text={"All"} value={sumAll()}/>
-      <Paragraph text={'Average'} value={average()} />
-      <Paragraph text={'Positive'} value={positivePercentage()} symbol={'%'} />
+      <Statistics 
+        good={good}
+        bad={bad}
+        neutral={neutral}
+        all={sumAll()}
+        average={average}
+        positive={positivePercentage}
+      />
     </div>
   );
 }
